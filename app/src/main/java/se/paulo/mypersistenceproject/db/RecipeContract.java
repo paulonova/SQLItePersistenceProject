@@ -11,17 +11,25 @@ final class RecipeContract {
 
     static final String CREATE_RECIPE_ENTRY_TABLE = "CREATE TABLE " + RecipeEntry.TABLE_NAME +
             " ( " +
-            RecipeEntry._ID + " INTEGER PRIMERY KEY AUTOINCREMENT, " +
+            RecipeEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             RecipeEntry.COLUMN_NAME + " TEXT NOT NULL, " +
             RecipeEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
             RecipeEntry.COLUMN_IMAGE_RESOURCE_ID + " INTEGER NOT NULL, " +
-            "UNIQUE ( " + RecipeEntry._ID + ") ON CONFLICT REPLACE )";
+            "UNIQUE ( " + RecipeEntry._ID + ") ON CONFLICT REPLACE)";
 
     /**
      * UNIQUE: What this is going to do is allow us to insert records into our recipe table without
      * having to worry about conflicts as those things will automatically be replaced
      * if something has a matching ID. This is a standard way of handling duplicate ID insertions with SQLite*/
 
+    static final String CREATE_RECIPE_STEP_ENTRY_TABLE = "CREATE TABLE " + RecipeStepEntry.TABLE_NAME +
+            " ( " +
+            RecipeStepEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            RecipeStepEntry.COLUMN_RECIPE_ID + " INTEGER NOT NULL " +
+            " REFERENCES " + RecipeEntry.TABLE_NAME + "," +
+            RecipeStepEntry.COLUMN_STEP_NUMBER + " INTEGER NOT NULL," +
+            RecipeStepEntry.COLUMN_INSTRUCTION + " TEXT NOT NULL," +
+            "UNIQUE (" + RecipeStepEntry._ID + ") ON CONFLICT REPLACE)";
 
 
     public static class RecipeEntry implements BaseColumns{

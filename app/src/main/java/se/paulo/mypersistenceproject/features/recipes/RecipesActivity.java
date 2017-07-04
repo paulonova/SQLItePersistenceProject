@@ -7,6 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import se.paulo.mypersistenceproject.R;
+import se.paulo.mypersistenceproject.db.RecipesDataProvider;
+import se.paulo.mypersistenceproject.db.TopsyTurveyDataSource;
+import se.paulo.mypersistenceproject.models.Recipe;
 
 public class RecipesActivity extends AppCompatActivity {
 
@@ -14,6 +17,7 @@ public class RecipesActivity extends AppCompatActivity {
 
     private RecyclerView recipesRecyclerView;
     private RecipesAdapter adapter;
+    private TopsyTurveyDataSource dataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,17 +29,24 @@ public class RecipesActivity extends AppCompatActivity {
 
         recipesRecyclerView = (RecyclerView) findViewById(R.id.recipes_recycler_view);
 
+        dataSource = new TopsyTurveyDataSource(this);
         setupRecyclerView();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        dataSource.open();
+
+        for (Recipe recipe : RecipesDataProvider.recipesList) {
+            dataSource.createRecipe(recipe);
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        dataSource.close();
     }
 
     private void setupRecyclerView(){
