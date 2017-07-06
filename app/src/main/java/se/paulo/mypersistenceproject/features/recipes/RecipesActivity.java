@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+
+import java.util.List;
 
 import se.paulo.mypersistenceproject.R;
 import se.paulo.mypersistenceproject.db.RecipesDataProvider;
@@ -42,7 +45,23 @@ public class RecipesActivity extends AppCompatActivity {
             dataSource.createRecipe(recipe);
         }
 
+        List<Recipe> allRecipes = getRecipes();
+        Recipe updatedRecipe = allRecipes.get(0);
+        updatedRecipe.setName("Yellow Cake!");
+
+        dataSource.updateRecipe(updatedRecipe);
+        getRecipes();
+
+    }
+
+    private List<Recipe> getRecipes(){
+        List<Recipe> allRecipes = dataSource.getAllRecipes();
+        for (Recipe recipe : allRecipes) {
+            Log.i(TAG, "The recipe: " + recipe);
+        }
         adapter.setRecipes(dataSource.getAllRecipes());
+
+        return allRecipes;
     }
 
     @Override
