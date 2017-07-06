@@ -47,9 +47,10 @@ public class RecipesActivity extends AppCompatActivity {
 
         List<Recipe> allRecipes = getRecipes();
         Recipe updatedRecipe = allRecipes.get(0);
-        updatedRecipe.setName("Yellow Cake!");
-
-        dataSource.updateRecipe(updatedRecipe);
+//        updatedRecipe.setName("Yellow Cake!");
+//        dataSource.updateRecipe(updatedRecipe);
+//        dataSource.deleteRecipe(updatedRecipe);
+        dataSource.deleteAllRecipe();
         getRecipes();
 
     }
@@ -79,6 +80,9 @@ public class RecipesActivity extends AppCompatActivity {
         adapter = new RecipesAdapter(this);
         recipesRecyclerView.setAdapter(adapter);
     }
+
+
+
 
 
 }

@@ -105,5 +105,22 @@ public class TopsyTurveyDataSource {
 
     }
 
+    public void deleteRecipe(Recipe recipe){
+
+        String selection = RecipeContract.RecipeEntry._ID + " = ?";
+        String[] selectionArgs = {String.valueOf(recipe.getId())};
+
+        int count = database.delete(RecipeContract.RecipeEntry.TABLE_NAME, selection, selectionArgs);
+        Log.d(TAG, "number of records deleted: " + count);
+
+    }
+
+    public void deleteAllRecipe(){
+
+        int count = database.delete(RecipeContract.RecipeEntry.TABLE_NAME, null, null);
+        Log.d(TAG, "number of records deleted: " + count);
+
+    }
+
 
 }
