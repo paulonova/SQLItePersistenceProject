@@ -15,7 +15,7 @@ final class RecipeContract {
             RecipeEntry.COLUMN_NAME + " TEXT NOT NULL, " +
             RecipeEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
             RecipeEntry.COLUMN_IMAGE_RESOURCE_ID + " INTEGER NOT NULL, " +
-            "UNIQUE ( " + RecipeEntry._ID + ") ON CONFLICT REPLACE)";
+            "UNIQUE ( " + RecipeEntry._ID + ") ON CONFLICT REPLACE )";
 
     /**
      * UNIQUE: What this is going to do is allow us to insert records into our recipe table without

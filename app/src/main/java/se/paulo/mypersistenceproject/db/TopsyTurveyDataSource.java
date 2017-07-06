@@ -2,9 +2,11 @@ package se.paulo.mypersistenceproject.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import se.paulo.mypersistenceproject.models.Recipe;
@@ -62,6 +64,31 @@ public class TopsyTurveyDataSource {
 
         long rowId = database.insert(RecipeContract.RecipeStepEntry.TABLE_NAME, null, values);
         Log.d(TAG, "Recipe step with id: " + rowId);
+    }
+
+    public List<Recipe> getAllRecipes(){
+        List<Recipe> recipes = new ArrayList<>();
+        String selectQuery = "SELECT * FROM recipe";
+        Cursor cursor = database.rawQuery(selectQuery, null); //null ==> Where statement..
+        try {
+            while(cursor.moveToNext()){
+                Recipe recipe = new Recipe(
+                        cursor.getString(cursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_NAME)),
+                        cursor.getString(cursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_DESCRIPTION)),
+                        cursor.getInt(cursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_IMAGE_RESOURCE_ID)));
+
+                recipe.setId(cursor.getLong(cursor.getColumnIndex(RecipeContract.RecipeEntry._ID)));
+                recipes.add(recipe);
+            }
+
+        }finally {
+            if(cursor != null && !cursor.isClosed()){
+                cursor.close();
+            }
+        }
+
+
+        return recipes;
     }
 
 
