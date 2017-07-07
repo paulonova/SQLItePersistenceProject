@@ -5,9 +5,9 @@ package se.paulo.mypersistenceproject.models;
 
 public class RecipeStep {
 
-    private long id;
+//    private long id;
 
-    private long recipeId;
+//    private long recipeId;
 
     private int stepNumber;
 
@@ -18,21 +18,21 @@ public class RecipeStep {
         this.instruction = instruction;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getRecipeId() {
-        return recipeId;
-    }
-
-    public void setRecipeId(long recipeId) {
-        this.recipeId = recipeId;
-    }
+//    public long getId() {
+//        return id;
+//    }
+//
+//    public void setId(long id) {
+//        this.id = id;
+//    }
+//
+//    public long getRecipeId() {
+//        return recipeId;
+//    }
+//
+//    public void setRecipeId(long recipeId) {
+//        this.recipeId = recipeId;
+//    }
 
     public int getStepNumber() {
         return stepNumber;
@@ -50,15 +50,15 @@ public class RecipeStep {
         this.instruction = instruction;
     }
 
-    @Override
-    public String toString() {
-        return "RecipeStep{" +
-                "id=" + id +
-                ", recipeId=" + recipeId +
-                ", stepNumber=" + stepNumber +
-                ", instruction='" + instruction + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "RecipeStep{" +
+//                "id=" + id +
+//                ", recipeId=" + recipeId +
+//                ", stepNumber=" + stepNumber +
+//                ", instruction='" + instruction + '\'' +
+//                '}';
+//    }
 
 
 }

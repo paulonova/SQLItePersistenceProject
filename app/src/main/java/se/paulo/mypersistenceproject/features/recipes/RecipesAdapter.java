@@ -27,21 +27,32 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
     private List<Recipe> recipes = Collections.emptyList();
     private Context context;
 
-
     public RecipesAdapter(Context context) {
         this.context = context;
     }
 
     void setRecipes(List<Recipe> recipes) {
-
         this.recipes = recipes;
     }
 
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView recipeImage;
+        TextView recipeName;
+        TextView recipeDescription;
+
+        public ViewHolder(View v) {
+            super(v);
+
+            recipeImage = (ImageView) v.findViewById(R.id.recipe_image);
+            recipeName = (TextView) v.findViewById(R.id.recipe_name);
+            recipeDescription = (TextView) v.findViewById(R.id.recipe_description);
+        }
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_item, parent, false);
-
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recipe_item, parent, false);
         return new ViewHolder(v);
     }
 
@@ -57,29 +68,11 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
                 .resize(340, 200)
                 .centerCrop()
                 .into(holder.recipeImage);
-
     }
 
     @Override
     public int getItemCount() {
-        return recipes.size();
+        return this.recipes.size();
     }
-
-
-    public static class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView recipeImage;
-        TextView recipeName;
-        TextView recipeDescription;
-
-
-        public ViewHolder(View v) {
-            super(v);
-            recipeImage = (ImageView) v.findViewById(R.id.recipe_image);
-            recipeName = (TextView) v.findViewById(R.id.recipe_name);
-            recipeDescription = (TextView) v.findViewById(R.id.recipe_description);
-        }
-    }
-
-
 
 }

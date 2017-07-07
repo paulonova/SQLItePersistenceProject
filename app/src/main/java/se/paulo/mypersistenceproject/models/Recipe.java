@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Recipe {
 
-    private long id;
+    private Long _id;
 
     private String name;
 
@@ -17,6 +17,10 @@ public class Recipe {
 
     private List<RecipeStep> steps;
 
+    private Integer numberOfStars;
+
+    public Recipe() {
+    }
 
     public Recipe(String name, String description, int imageResourceId) {
         this.name = name;
@@ -24,15 +28,12 @@ public class Recipe {
         this.imageResourceId = imageResourceId;
     }
 
-
-
-
     public long getId() {
-        return id;
+        return _id;
     }
 
     public void setId(long id) {
-        this.id = id;
+        this._id = id;
     }
 
     public String getName() {
@@ -67,16 +68,21 @@ public class Recipe {
         this.steps = steps;
     }
 
+    public Integer getNumberOfStars() {
+        return numberOfStars;
+    }
+
+    public void setNumberOfStars(Integer numberOfStars) {
+        this.numberOfStars = numberOfStars;
+    }
 
     @Override
     public String toString() {
         return "Recipe{" +
-                "id=" + id +
+                "_id=" + _id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", imageResourceId=" + imageResourceId +
-                ", steps=" + steps +
                 '}';
     }
-
 }

@@ -47,12 +47,12 @@ public class RecipesActivity extends AppCompatActivity {
 
         List<Recipe> allRecipes = getRecipes();
         Recipe updatedRecipe = allRecipes.get(0);
-//        updatedRecipe.setName("Yellow Cake!");
-//        dataSource.updateRecipe(updatedRecipe);
+        updatedRecipe.setDescription("Wonderful, yellow cake!");
+        dataSource.updateRecipe(updatedRecipe);
 //        dataSource.deleteRecipe(updatedRecipe);
-        dataSource.deleteAllRecipe();
-        getRecipes();
+//        dataSource.deleteAllRecipe();
 
+        getRecipes();
     }
 
     private List<Recipe> getRecipes(){
@@ -67,22 +67,19 @@ public class RecipesActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        super.onPause();
         dataSource.close();
+        super.onPause();
     }
 
-    private void setupRecyclerView(){
+    private void setupRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recipesRecyclerView.setLayoutManager(layoutManager);
 
         recipesRecyclerView.setHasFixedSize(true);
+
         adapter = new RecipesAdapter(this);
         recipesRecyclerView.setAdapter(adapter);
     }
-
-
-
-
 
 }
