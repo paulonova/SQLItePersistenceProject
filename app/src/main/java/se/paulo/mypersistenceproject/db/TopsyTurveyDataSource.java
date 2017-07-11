@@ -1,15 +1,13 @@
 package se.paulo.mypersistenceproject.db;
 
-import android.content.Context;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
 import se.paulo.mypersistenceproject.models.Recipe;
-
-import static nl.qbusict.cupboard.CupboardFactory.cupboard;
+import se.paulo.mypersistenceproject.models.RecipeFields;
 
 /** * Created by Paulo Vila Nova on 2017-07-04.
  */
@@ -18,53 +16,74 @@ public class TopsyTurveyDataSource {
 
     private static final String TAG = TopsyTurveyDataSource.class.getSimpleName();
 
-    private SQLiteDatabase database;
-    private DatabaseSQLiteHelper dbHelper;
+    private Realm realm;
 
 
-    public TopsyTurveyDataSource(Context context) {
-        this.dbHelper = new DatabaseSQLiteHelper(context);
-    }
-
-
-    public void open() throws SQLException {
-        this.database = dbHelper.getWritableDatabase();
+    public void open(){
+        realm = Realm.getDefaultInstance();
         Log.d(TAG, "Database is opened");
     }
 
     public void close(){
-        dbHelper.close();
+        realm.close();
         Log.d(TAG, "Database is closed");
     }
 
 
-    public void createRecipe(Recipe recipe){
+    public void createRecipe(final Recipe recipe){
 
-        long rowId = cupboard().withDatabase(database).put(recipe);
-        Log.d(TAG, "Recipe with id: " + rowId);
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.insertOrUpdate(recipe);
+            }
+        });
+        Log.d(TAG, "Recipe with id: " + recipe.getId());
     }
-
 
     public List<Recipe> getAllRecipes(){
 
-        return cupboard().withDatabase(database)
-                .query(Recipe.class)
-                .list();
+        return realm.where(Recipe.class)
+//                .isNotEmpty(RecipeFields.STEPS.$)
+//                .or()
+//                .contains(RecipeFields.NAME, "ie")
+                .findAll();
     }
 
-    public void updateRecipe(Recipe recipe){
-        cupboard().withDatabase(database).put(recipe);
+
+    public void modifyDescription(){
+        final Recipe recipe = realm.where(Recipe.class).findFirst();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                recipe.setDescription("Wonderful yellow cake!");
+            }
+        });
     }
+
 
     public void deleteRecipe(Recipe recipe){
-        cupboard().withDatabase(database).delete(recipe);
-//        cupboard().withDatabase(database).delete(Recipe.class, 2L);
+        final Recipe recipeManage = realm.where(Recipe.class).equalTo(RecipeFields.ID, recipe.getId()).findFirst();
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                recipeManage.deleteFromRealm();
+            }
+        });
     }
+
 
     public void deleteAllRecipe(){
-        cupboard().withDatabase(database).delete(Recipe.class, null);
-    }
+        final RealmResults<Recipe> recipes = realm.where(Recipe.class).findAll();
 
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                recipes.deleteAllFromRealm();
+            }
+        });
+    }
 
 
 }

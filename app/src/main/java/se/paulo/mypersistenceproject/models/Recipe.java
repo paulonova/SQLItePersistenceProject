@@ -1,13 +1,18 @@
 package se.paulo.mypersistenceproject.models;
 
-import java.util.List;
+import java.util.UUID;
+
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /** * Created by Paulo Vila Nova on 2017-07-03.
  */
 
-public class Recipe {
+public class Recipe extends RealmObject {
 
-    private Long _id;
+    @PrimaryKey
+    private String id = UUID.randomUUID().toString();
 
     private String name;
 
@@ -15,25 +20,34 @@ public class Recipe {
 
     private int imageResourceId;
 
-    private List<RecipeStep> steps;
+    private RealmList<RecipeStep> steps;
 
     private Integer numberOfStars;
 
     public Recipe() {
     }
 
-    public Recipe(String name, String description, int imageResourceId) {
+    public Recipe(String name, String description, int imageResourceId, Integer numberOfStars) {
         this.name = name;
         this.description = description;
         this.imageResourceId = imageResourceId;
+        this.numberOfStars = numberOfStars;
     }
 
-    public long getId() {
-        return _id;
+    public RealmList<RecipeStep> getSteps() {
+        return steps;
     }
 
-    public void setId(long id) {
-        this._id = id;
+    public void setSteps(RealmList<RecipeStep> steps) {
+        this.steps = steps;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -60,14 +74,6 @@ public class Recipe {
         this.imageResourceId = imageResourceId;
     }
 
-    public List<RecipeStep> getSteps() {
-        return steps;
-    }
-
-    public void setSteps(List<RecipeStep> steps) {
-        this.steps = steps;
-    }
-
     public Integer getNumberOfStars() {
         return numberOfStars;
     }
@@ -76,12 +82,14 @@ public class Recipe {
         this.numberOfStars = numberOfStars;
     }
 
+
     @Override
     public String toString() {
         return "Recipe{" +
-                "_id=" + _id +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", number of stars='" + numberOfStars + '\'' +
                 ", imageResourceId=" + imageResourceId +
                 '}';
     }

@@ -1,6 +1,6 @@
 package se.paulo.mypersistenceproject.features.recipes;
 
-import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +10,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.Collections;
-import java.util.List;
-
+import io.realm.OrderedRealmCollection;
+import io.realm.RealmRecyclerViewAdapter;
 import se.paulo.mypersistenceproject.R;
 import se.paulo.mypersistenceproject.models.Recipe;
 
@@ -21,19 +20,18 @@ import se.paulo.mypersistenceproject.models.Recipe;
 /** * Created by Paulo Vila Nova on 2017-07-03.
  */
 
-public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHolder>{
+public class RecipesAdapter extends RealmRecyclerViewAdapter<Recipe, RecipesAdapter.ViewHolder> {
 
 
-    private List<Recipe> recipes = Collections.emptyList();
-    private Context context;
 
-    public RecipesAdapter(Context context) {
-        this.context = context;
+    public RecipesAdapter(@Nullable OrderedRealmCollection<Recipe> data, boolean autoUpdate) {
+        super(data, autoUpdate);
     }
 
-    void setRecipes(List<Recipe> recipes) {
-        this.recipes = recipes;
-    }
+
+//    public void setRecipes(List<Recipe> recipes) {
+//        this.recipes = recipes;
+//    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView recipeImage;
@@ -58,21 +56,21 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Recipe recipe = recipes.get(position);
+        Recipe recipe = getData().get(position);
 
         holder.recipeName.setText(recipe.getName());
         holder.recipeDescription.setText(recipe.getDescription());
 
-        Picasso.with(context)
+        Picasso.with(holder.recipeImage.getContext())
                 .load(recipe.getImageResourceId())
                 .resize(340, 200)
                 .centerCrop()
                 .into(holder.recipeImage);
     }
 
-    @Override
-    public int getItemCount() {
-        return this.recipes.size();
-    }
+//    @Override
+//    public int getItemCount() {
+//        return this.recipes.size();
+//    }
 
 }

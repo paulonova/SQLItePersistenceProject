@@ -1,13 +1,18 @@
 package se.paulo.mypersistenceproject.models;
 
+import java.util.UUID;
+
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /** * Created by Paulo Vila Nova on 2017-07-03.
  */
 
-public class RecipeStep {
+public class RecipeStep extends RealmObject {
 
-//    private long id;
 
-//    private long recipeId;
+    @PrimaryKey
+    private String id = UUID.randomUUID().toString();
 
     private int stepNumber;
 
@@ -18,21 +23,16 @@ public class RecipeStep {
         this.instruction = instruction;
     }
 
-//    public long getId() {
-//        return id;
-//    }
-//
-//    public void setId(long id) {
-//        this.id = id;
-//    }
-//
-//    public long getRecipeId() {
-//        return recipeId;
-//    }
-//
-//    public void setRecipeId(long recipeId) {
-//        this.recipeId = recipeId;
-//    }
+    public RecipeStep() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public int getStepNumber() {
         return stepNumber;
@@ -50,15 +50,14 @@ public class RecipeStep {
         this.instruction = instruction;
     }
 
-//    @Override
-//    public String toString() {
-//        return "RecipeStep{" +
-//                "id=" + id +
-//                ", recipeId=" + recipeId +
-//                ", stepNumber=" + stepNumber +
-//                ", instruction='" + instruction + '\'' +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "RecipeStep{" +
+                "id='" + id + '\'' +
+                ", stepNumber=" + stepNumber +
+                ", instruction='" + instruction + '\'' +
+                '}';
+    }
 
 
 }
